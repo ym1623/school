@@ -1,0 +1,403 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四年级数学学习平台 - 人教版</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="platform-container">
+        <header class="main-header">
+            <div class="header-content">
+                <h1 class="platform-title">
+                    <span class="grade-badge">四年级</span>
+                    数学学习平台
+                </h1>
+                <div class="user-info">
+                    <div class="progress-ring">
+                        <span class="level">Lv.4</span>
+                    </div>
+                    <span class="username">小数学家</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <h2 class="section-title">学习单元</h2>
+            <section class="units-grid">                
+                
+                <!-- 第一单元：大数的认识 -->
+                <div class="unit-card" data-unit="large-numbers">
+                    <div class="unit-header">
+                        <span class="unit-number">1</span>
+                        <h3>大数的认识</h3>
+                        <div class="difficulty-stars">
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                            <span class="star"></span>
+                        </div>
+                    </div>
+                    <div class="unit-content">
+                        <p class="unit-desc">掌握亿以内数的读写，学会数的大小比较</p>
+                        <div class="topics-list">
+                            <span class="topic">亿以内数的读写</span>
+                            <span class="topic">数的大小比较</span>
+                            <span class="topic">数的改写和近似数</span>
+                            <span class="topic">生活中的大数应用</span>
+                        </div>
+                        <div class="unit-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                            <span class="progress-text">65% 完成</span>
+                        </div>
+                    </div>
+                    <button class="start-learning-btn" onclick="startLearning('large-numbers')">开始学习</button>
+                </div>
+
+                <!-- 第二单元：公顷和平方千米 -->
+                <div class="unit-card" data-unit="area-units">
+                    <div class="unit-header">
+                        <span class="unit-number">2</span>
+                        <h3>公顷和平方千米</h3>
+                        <div class="difficulty-stars">
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                            <span class="star"></span>
+                        </div>
+                    </div>
+                    <div class="unit-content">
+                        <p class="unit-desc">理解公顷和平方千米的概念，掌握面积单位换算</p>
+                        <div class="topics-list">
+                            <span class="topic">公顷的认识</span>
+                            <span class="topic">平方千米的认识</span>
+                            <span class="topic">面积单位换算</span>
+                            <span class="topic">实际应用</span>
+                        </div>
+                        <div class="unit-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 30%"></div>
+                            </div>
+                            <span class="progress-text">30% 完成</span>
+                        </div>
+                    </div>
+                    <button class="start-learning-btn" onclick="startLearning('area-units')">开始学习</button>
+                </div>
+
+                <!-- 第三单元：角的度量 -->
+                <div class="unit-card" data-unit="angle-measurement">
+                    <div class="unit-header">
+                        <span class="unit-number">3</span>
+                        <h3>角的度量</h3>
+                        <div class="difficulty-stars">
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                        </div>
+                    </div>
+                    <div class="unit-content">
+                        <p class="unit-desc">理解角的概念，学会使用量角器测量和画角</p>
+                        <div class="topics-list">
+                            <span class="topic">角的认识</span>
+                            <span class="topic">角的度量</span>
+                            <span class="topic">角的画法</span>
+                            <span class="topic">角的分类</span>
+                        </div>
+                        <div class="unit-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
+                            </div>
+                            <span class="progress-text">45% 完成</span>
+                        </div>
+                    </div>
+                    <button class="start-learning-btn" onclick="startLearning('angle-measurement')">开始学习</button>
+                </div>
+
+                <!-- 第四单元：三位数乘两位数 -->
+                <div class="unit-card" data-unit="multiplication-advanced">
+                    <div class="unit-header">
+                        <span class="unit-number">4</span>
+                        <h3>三位数乘两位数</h3>
+                        <div class="difficulty-stars">
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                        </div>
+                    </div>
+                    <div class="unit-content">
+                        <p class="unit-desc">掌握三位数乘两位数的计算方法和实际应用</p>
+                        <div class="topics-list">
+                            <span class="topic">口算乘法</span>
+                            <span class="topic">笔算乘法</span>
+                            <span class="topic">乘法的应用</span>
+                            <span class="topic">积的变化规律</span>
+                        </div>
+                        <div class="unit-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">未开始</span>
+                        </div>
+                    </div>
+                    <button class="start-learning-btn" onclick="startLearning('multiplication-advanced')">开始学习</button>
+                </div>
+
+                <!-- 第五单元：平行四边形和梯形 -->
+                <div class="unit-card" data-unit="quadrilaterals">
+                    <div class="unit-header">
+                        <span class="unit-number">5</span>
+                        <h3>平行四边形和梯形</h3>
+                        <div class="difficulty-stars">
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                            <span class="star"></span>
+                        </div>
+                    </div>
+                    <div class="unit-content">
+                        <p class="unit-desc">认识平行四边形和梯形的特征和性质</p>
+                        <div class="topics-list">
+                            <span class="topic">平行四边形的认识</span>
+                            <span class="topic">梯形的认识</span>
+                            <span class="topic">图形的性质</span>
+                            <span class="topic">图形的应用</span>
+                        </div>
+                        <div class="unit-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">未开始</span>
+                        </div>
+                    </div>
+                    <button class="start-learning-btn" onclick="startLearning('quadrilaterals')">开始学习</button>
+                </div>
+
+                <!-- 第六单元：除数是两位数的除法 -->
+                <div class="unit-card" data-unit="division-advanced">
+                    <div class="unit-header">
+                        <span class="unit-number">6</span>
+                        <h3>除数是两位数的除法</h3>
+                        <div class="difficulty-stars">
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                        </div>
+                    </div>
+                    <div class="unit-content">
+                        <p class="unit-desc">学会除数是两位数的除法计算和应用</p>
+                        <div class="topics-list">
+                            <span class="topic">口算除法</span>
+                            <span class="topic">笔算除法</span>
+                            <span class="topic">除法的应用</span>
+                            <span class="topic">商的变化规律</span>
+                        </div>
+                        <div class="unit-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">未开始</span>
+                        </div>
+                    </div>
+                    <button class="start-learning-btn" onclick="startLearning('division-advanced')">开始学习</button>
+                </div>
+
+                <!-- 第七单元：条形统计图 -->
+                <div class="unit-card" data-unit="bar-chart">
+                    <div class="unit-header">
+                        <span class="unit-number">7</span>
+                        <h3>条形统计图</h3>
+                        <div class="difficulty-stars">
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                            <span class="star"></span>
+                        </div>
+                    </div>
+                    <div class="unit-content">
+                        <p class="unit-desc">学会收集数据，制作和分析条形统计图</p>
+                        <div class="topics-list">
+                            <span class="topic">数据的收集和整理</span>
+                            <span class="topic">条形统计图的认识</span>
+                            <span class="topic">统计图的制作</span>
+                            <span class="topic">数据分析</span>
+                        </div>
+                        <div class="unit-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">未开始</span>
+                        </div>
+                    </div>
+                    <button class="start-learning-btn" onclick="startLearning('bar-chart')">开始学习</button>
+                </div>
+
+                <!-- 第八单元：数学广角 -->
+                <div class="unit-card" data-unit="math-thinking">
+                    <div class="unit-header">
+                        <span class="unit-number">8</span>
+                        <h3>数学广角</h3>
+                        <div class="difficulty-stars">
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                            <span class="star active"></span>
+                        </div>
+                    </div>
+                    <div class="unit-content">
+                        <p class="unit-desc">培养逻辑推理能力，学习解决问题的策略</p>
+                        <div class="topics-list">
+                            <span class="topic">逻辑推理</span>
+                            <span class="topic">优化问题</span>
+                            <span class="topic">策略问题</span>
+                            <span class="topic">数学思维</span>
+                        </div>
+                        <div class="unit-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">未开始</span>
+                        </div>
+                    </div>
+                    <button class="start-learning-btn" onclick="startLearning('math-thinking')">开始学习</button>
+                </div>
+            </section>
+
+            <!-- 学习工具栏 -->
+            <aside class="learning-tools">
+                <h3>学习工具</h3>
+                <div class="tools-grid">
+                    <button class="tool-btn" onclick="openTool('calculator')">
+                        <span class="tool-icon"></span>
+                        <span class="tool-name">计算器</span>
+                    </button>
+                    <button class="tool-btn" onclick="openTool('protractor')">
+                        <span class="tool-icon"></span>
+                        <span class="tool-name">量角器</span>
+                    </button>
+                    <button class="tool-btn" onclick="openTool('ruler')">
+                        <span class="tool-icon"></span>
+                        <span class="tool-name">直尺</span>
+                    </button>
+                    <button class="tool-btn" onclick="openTool('notebook')">
+                        <span class="tool-icon"></span>
+                        <span class="tool-name">错题本</span>
+                    </button>
+                    <button class="tool-btn" onclick="openTool('geometry')">
+                        <span class="tool-icon"></span>
+                        <span class="tool-name">几何画板</span>
+                    </button>
+                    <button class="tool-btn" onclick="openTool('fraction-calculator')">
+                        <span class="tool-icon"></span>
+                        <span class="tool-name">分数计算器</span>
+                    </button>
+                    <button class="tool-btn" onclick="openTool('clock')">
+                        <span class="tool-icon"></span>
+                        <span class="tool-name">时钟</span>
+                    </button>
+                    <button class="tool-btn" onclick="openTool('math-game')">
+                        <span class="tool-icon"></span>
+                        <span class="tool-name">数学游戏</span>
+                    </button>
+                    <button class="tool-btn" onclick="openTool('chart-maker')">
+                        <span class="tool-icon"></span>
+                        <span class="tool-name">统计图制作</span>
+                    </button>
+                </div>
+            </aside>
+        </main>
+
+        <!-- 底部状态栏 -->
+        <footer class="status-bar">
+            <div class="stats-item">
+                <span class="stat-label">今日学习</span>
+                <span class="stat-value" id="todayTime">25分钟</span>
+            </div>
+            <div class="stats-item">
+                <span class="stat-label">连续天数</span>
+                <span class="stat-value" id="streakDays">7天</span>
+            </div>
+            <div class="stats-item">
+                <span class="stat-label">总积分</span>
+                <span class="stat-value" id="totalPoints">1,250</span>
+            </div>
+            <div class="stats-item">
+                <span class="stat-label">掌握度</span>
+                <span class="stat-value" id="masteryLevel">78%</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 学习模态框 -->
+    <div id="learningModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">单元学习</h3>
+                <button class="close-btn" onclick="closeLearningModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="learning-stages">
+                    <div class="stage active" data-stage="explanation">
+                        <span class="stage-number">1</span>
+                        <span class="stage-name">基础解释</span>
+                    </div>
+                    <div class="stage" data-stage="visualization">
+                        <span class="stage-number">2</span>
+                        <span class="stage-name">可视化理解</span>
+                    </div>
+                    <div class="stage" data-stage="practice">
+                        <span class="stage-number">3</span>
+                        <span class="stage-name">步骤练习</span>
+                    </div>
+                    <div class="stage" data-stage="extension">
+                        <span class="stage-number">4</span>
+                        <span class="stage-name">扩展知识</span>
+                    </div>
+                </div>
+                <div id="stageContent" class="stage-content">
+                    <!-- 动态内容将在这里加载 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/units/area-units.js"></script>
+    <script src="js/units/multiplication-advanced.js"></script>
+    <script src="js/units/quadrilaterals.js"></script>
+    <script src="js/learning-system.js"></script>
+    <script src="js/units/large-numbers.js"></script>
+    <script src="js/units/angle-measurement.js"></script>
+    <script src="js/tools/calculator.js"></script>
+    <script src="js/tools/protractor.js"></script>
+    <script src="js/tools/ruler.js"></script>
+    <script src="js/tools/notebook.js"></script>
+    <script src="js/tools/geometry.js"></script>
+    <script src="js/tools/fraction-calculator.js"></script>
+    <script src="js/tools/clock.js"></script>
+    <script src="js/tools/math-game.js"></script>
+    <script src="js/units/bar-chart.js"></script>
+    <script src="js/units/division-advanced.js"></script>
+    <script src="js/units/math-thinking.js"></script>
+    <script src="js/tools/chart-maker.js"></script>
+    <script src="js/tools/speech-recognition.js"></script>
+    
+    <!-- 初始化单元实例 -->
+    <script>
+        // 创建单元实例
+        let divisionAdvancedUnit;
+        let mathThinkingUnit;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化除法单元
+            if (typeof DivisionAdvanced !== 'undefined') {
+                divisionAdvancedUnit = new DivisionAdvanced();
+            }
+            
+            // 初始化数学思维单元
+            if (typeof MathThinking !== 'undefined') {
+                mathThinkingUnit = new MathThinking();
+            }
+            
+            console.log('所有单元实例已初始化');
+        });
+    </script>
+</body>
+</html>
