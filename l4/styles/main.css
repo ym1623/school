@@ -476,17 +476,46 @@ body {
 }
 
 .grade-badge {
-    background: linear-gradient(135deg, var(--accent-color), #f39c12);
-    color: white;
-    padding: var(--spacing-sm) var(--spacing-lg);
-    border-radius: var(--radius-xl);
-    font-size: var(--font-size-sm);
-    font-weight: 700;
-    margin-right: var(--spacing-lg);
-    box-shadow: var(--shadow-md);
+    background: linear-gradient(135deg, #f39c12 60%, var(--accent-color) 100%);
+    color: #fff;
+    padding: calc(var(--spacing-lg) * 1.2) calc(var(--spacing-2xl) * 1.2);
+    border-radius: 2em;
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-right: var(--spacing-xl);
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.18), 0 1.5px 0 #fff;
+    letter-spacing: 0.18em;
+    text-shadow:
+        0 2px 12px rgba(0,0,0,0.35),
+        0 1px 0 #fff,
+        1px 1px 0 #f39c12,
+        -1px -1px 0 #f39c12;
+    border: 3px solid #fff8;
+    outline: 2px solid #f39c12;
+    outline-offset: 2px;
     animation: pulse 2s infinite;
     position: relative;
     overflow: hidden;
+    z-index: 2;
+    transition: font-size 0.2s, padding 0.2s;
+}
+
+@media (max-width: 768px) {
+    .grade-badge {
+        font-size: 1.4rem;
+        padding: var(--spacing-md) var(--spacing-lg);
+        border-radius: 1.2em;
+        margin-right: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .grade-badge {
+        font-size: 1.1rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: 1em;
+        margin-right: var(--spacing-md);
+    }
 }
 
 .grade-badge::before {

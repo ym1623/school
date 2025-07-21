@@ -102,7 +102,7 @@ function initializePlatform() {
     console.log('正在初始化平台...');
     
     // 设置用户信息
-    const username = localStorage.getItem('username') || '小明';
+    const username = localStorage.getItem('username') || '语晨';
     const level = localStorage.getItem('level') || '1';
     
     // 更新头部信息
