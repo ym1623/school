@@ -2456,3 +2456,209 @@ function closeLearningModal() {
         modal.style.display = 'none';
     }
 }
+
+function openFutureFeature(feature) {
+    let title = '', desc = '';
+    if (feature === 'collaboration') {
+        // 多人协作原型弹窗
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.style.display = 'flex';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>多人协作（原型）</h3>
+                    <button class="close-btn" onclick="document.body.removeChild(this.closest('.modal'))">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div style="max-width:400px;margin:0 auto;">
+                        <div style="margin-bottom:1.5em;">
+                            <label>昵称：</label>
+                            <input id="collabNickname" type="text" style="width:60%;padding:0.5em;" placeholder="请输入昵称" value="语晨">
+                        </div>
+                        <div style="margin-bottom:1.5em;">
+                            <button onclick="createCollabRoom()" class="btn btn-primary" style="margin-right:1em;">创建房间</button>
+                            <button onclick="showJoinRoomInput()" class="btn btn-secondary">加入房间</button>
+                        </div>
+                        <div id="collabRoomSection" style="display:none;margin-bottom:1.5em;"></div>
+                        <div id="collabMembersSection" style="display:none;">
+                            <h5>房间成员</h5>
+                            <ul id="collabMembersList" style="padding-left:1.5em;"></ul>
+                            <div style="color:var(--primary-color);margin-top:1em;">（实时协作功能开发中...）</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        window.createCollabRoom = function() {
+            const nickname = document.getElementById('collabNickname').value || '访客';
+            const roomId = 'R' + Math.floor(100000 + Math.random()*900000);
+            document.getElementById('collabRoomSection').style.display = 'block';
+            document.getElementById('collabRoomSection').innerHTML = `
+                <div style='margin-bottom:1em;'>
+                    <strong>房间ID：</strong><span style='font-size:1.2em;color:var(--primary-color);margin-left:0.5em;'>${roomId}</span>
+                    <button onclick="copyToClipboard('${roomId}')" style='margin-left:1em;'>复制</button>
+                </div>
+                <div style='color:var(--gray-600);font-size:0.95em;'>请将房间ID分享给同学，邀请他们加入协作。</div>
+            `;
+            document.getElementById('collabMembersSection').style.display = 'block';
+            document.getElementById('collabMembersList').innerHTML = `<li>${nickname}（房主）</li>`;
+        };
+        window.showJoinRoomInput = function() {
+            document.getElementById('collabRoomSection').style.display = 'block';
+            document.getElementById('collabRoomSection').innerHTML = `
+                <div style='margin-bottom:1em;'>
+                    <label>输入房间ID：</label>
+                    <input id='joinRoomId' type='text' style='width:8em;padding:0.3em;' placeholder='房间ID'>
+                    <button onclick='joinCollabRoom()' class='btn btn-primary' style='margin-left:0.5em;'>加入</button>
+                </div>
+            `;
+        };
+        window.joinCollabRoom = function() {
+            const nickname = document.getElementById('collabNickname').value || '访客';
+            const roomId = document.getElementById('joinRoomId').value || '未知';
+            document.getElementById('collabMembersSection').style.display = 'block';
+            document.getElementById('collabMembersList').innerHTML = `<li>${nickname}（已加入房间${roomId}）</li>`;
+        };
+        window.copyToClipboard = function(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('房间ID已复制！');
+            });
+        };
+        return;
+    }
+    if (feature === 'parent') {
+        // 家长面板原型弹窗
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.style.display = 'flex';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>家长面板（原型）</h3>
+                    <button class="close-btn" onclick="document.body.removeChild(this.closest('.modal'))">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div style="max-width:420px;margin:0 auto;">
+                        <div style="margin-bottom:1.5em;">
+                            <label>家长账号：</label>
+                            <input id="parentAccount" type="text" style="width:60%;padding:0.5em;" placeholder="请输入手机号/邮箱">
+                        </div>
+                        <div style="margin-bottom:1.5em;">
+                            <label>密码：</label>
+                            <input id="parentPassword" type="password" style="width:60%;padding:0.5em;" placeholder="请输入密码">
+                        </div>
+                        <button onclick="parentLoginDemo()" class="btn btn-primary" style="width:100%;margin-bottom:2em;">登录</button>
+                        <div id="parentPanelDemo" style="display:none;">
+                            <h5 style="margin-bottom:1em;">学生列表</h5>
+                            <ul style="padding-left:1.5em;margin-bottom:1.5em;">
+                                <li>语晨（四年级）</li>
+                                <li>小华（三年级）</li>
+                            </ul>
+                            <h5 style="margin-bottom:0.5em;">学习进度</h5>
+                            <div style="background:var(--gray-100);padding:0.8em 1em;border-radius:0.8em;margin-bottom:1em;">
+                                <div>四年级数学：<span style="color:var(--primary-color);font-weight:bold;">80%</span></div>
+                                <div>本周学习时长：<span style="color:var(--accent-color);font-weight:bold;">3小时20分</span></div>
+                            </div>
+                            <h5 style="margin-bottom:0.5em;">错题分析</h5>
+                            <div style="background:var(--gray-100);padding:0.8em 1em;border-radius:0.8em;margin-bottom:1em;">
+                                <div>易错知识点：<span style="color:#e67e22;">大数的读写、角的度量</span></div>
+                                <div>错题本：<span style="color:#c0392b;">5题待复习</span></div>
+                            </div>
+                            <h5 style="margin-bottom:0.5em;">成长报告</h5>
+                            <div style="background:var(--gray-100);padding:0.8em 1em;border-radius:0.8em;">
+                                <div>连续学习：<span style="color:var(--primary-color);">7天</span></div>
+                                <div>获得徽章：<span style="color:var(--accent-color);">3枚</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        window.parentLoginDemo = function() {
+            document.getElementById('parentPanelDemo').style.display = 'block';
+        };
+        return;
+    }
+    if (feature === 'cloud') {
+        // 云端同步原型弹窗
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.style.display = 'flex';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>云端同步（原型）</h3>
+                    <button class="close-btn" onclick="document.body.removeChild(this.closest('.modal'))">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div style="max-width:420px;margin:0 auto;">
+                        <div style="margin-bottom:1.5em;">
+                            <label>账号：</label>
+                            <input id="cloudAccount" type="text" style="width:60%;padding:0.5em;" placeholder="请输入手机号/邮箱">
+                        </div>
+                        <div style="margin-bottom:1.5em;">
+                            <label>密码：</label>
+                            <input id="cloudPassword" type="password" style="width:60%;padding:0.5em;" placeholder="请输入密码">
+                        </div>
+                        <button onclick="cloudLoginDemo()" class="btn btn-primary" style="width:100%;margin-bottom:2em;">登录</button>
+                        <div id="cloudPanelDemo" style="display:none;">
+                            <div style="margin-bottom:1.2em;">
+                                <span style="color:var(--primary-color);font-weight:bold;">同步状态：</span>
+                                <span id="cloudSyncStatus" style="color:var(--accent-color);">未同步</span>
+                                <button onclick="cloudSyncDemo()" class="btn btn-secondary" style="margin-left:1em;">立即同步</button>
+                            </div>
+                            <h5 style="margin-bottom:0.5em;">同步历史</h5>
+                            <ul id="cloudSyncHistory" style="padding-left:1.5em;margin-bottom:1.5em;">
+                                <li>2024-05-01 20:15 已同步</li>
+                                <li>2024-04-28 18:02 已同步</li>
+                            </ul>
+                            <div style="color:var(--gray-600);font-size:0.95em;">（演示：同步仅为本地模拟，后续将接入真实云服务）</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        window.cloudLoginDemo = function() {
+            document.getElementById('cloudPanelDemo').style.display = 'block';
+        };
+        window.cloudSyncDemo = function() {
+            document.getElementById('cloudSyncStatus').textContent = '已同步';
+            const ul = document.getElementById('cloudSyncHistory');
+            const now = new Date();
+            const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+            const li = document.createElement('li');
+            li.textContent = `${timeStr} 已同步`;
+            ul.insertBefore(li, ul.firstChild);
+        };
+        return;
+    }
+    switch(feature) {
+        case 'cloud':
+            title = '云端同步';
+            desc = '未来将支持学习数据云端同步、跨设备无缝学习。';
+            break;
+        default:
+            title = '敬请期待';
+            desc = '更多创新功能即将上线！';
+    }
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.style.display = 'flex';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>${title}</h3>
+                <button class="close-btn" onclick="document.body.removeChild(this.closest('.modal'))">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:1.2em;text-align:center;margin:2em 0;">${desc}</p>
+                <p style="color:var(--primary-color);text-align:center;">功能即将上线，敬请期待！</p>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}

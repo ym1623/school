@@ -758,123 +758,91 @@ class DivisionAdvanced {
         `;
     }
 
-    // 生成练习题
-    generateExercises() {
-        this.exercises = [
-            // 口算除法练习题
-            { dividend: 240, divisor: 60, answer: 4, hint: "240 ÷ 60 = 24 ÷ 6 = 4", type: "oral-division" },
-            { dividend: 320, divisor: 40, answer: 8, hint: "320 ÷ 40 = 32 ÷ 4 = 8", type: "oral-division" },
-            { dividend: 480, divisor: 80, answer: 6, hint: "480 ÷ 80 = 48 ÷ 8 = 6", type: "oral-division" },
-            
-            // 笔算除法练习题
-            { dividend: 532, divisor: 38, answer: 14, hint: "用竖式计算", type: "written-division" },
-            { dividend: 672, divisor: 28, answer: 24, hint: "用竖式计算", type: "written-division" },
-            { dividend: 456, divisor: 24, answer: 19, hint: "用竖式计算", type: "written-division" },
-            
-            // 商的变化规律练习题
-            { problem: "如果 120 ÷ 30 = 4，那么 240 ÷ 30 = ?", answer: 8, hint: "被除数扩大2倍，商也扩大2倍", type: "quotient-patterns" },
-            { problem: "如果 120 ÷ 30 = 4，那么 120 ÷ 60 = ?", answer: 2, hint: "除数扩大2倍，商缩小2倍", type: "quotient-patterns" }
-        ];
-    }
-
-    // 生成新题目
-    generateProblem() {
-        const problems = [
-            { dividend: 240, divisor: 60 },
-            { dividend: 320, divisor: 40 },
-            { dividend: 480, divisor: 80 },
-            { dividend: 360, divisor: 90 },
-            { dividend: 560, divisor: 70 }
-        ];
-        
-        const problem = problems[Math.floor(Math.random() * problems.length)];
-        document.getElementById('dividend-display').textContent = problem.dividend;
-        document.getElementById('divisor-display').textContent = problem.divisor;
-        document.getElementById('answer-input').value = '';
-        document.getElementById('oral-feedback').innerHTML = '';
-    }
-
-    // 检查口算答案
-    checkOralAnswer() {
-        const dividend = parseInt(document.getElementById('dividend-display').textContent);
-        const divisor = parseInt(document.getElementById('divisor-display').textContent);
-        const userAnswer = parseInt(document.getElementById('answer-input').value);
-        const correctAnswer = dividend / divisor;
-        
-        const feedback = document.getElementById('oral-feedback');
-        if (userAnswer === correctAnswer) {
-            feedback.innerHTML = '<span class="correct">✓ 正确！</span>';
-            feedback.className = 'calculator-feedback correct';
-            this.score += 5;
-        } else {
-            feedback.innerHTML = `<span class="incorrect">✗ 错误。正确答案是 ${correctAnswer}</span>`;
-            feedback.className = 'calculator-feedback incorrect';
+    // 动态生成练习题
+    generateExercise() {
+        // 随机选择题型
+        const types = ['oral-division', 'written-division', 'quotient-patterns'];
+        const type = types[Math.floor(Math.random() * types.length)];
+        let question = '', answer = '', explanation = '', hint = '';
+        if (type === 'oral-division') {
+            // 口算除法：整百/整千数除以整十/整百
+            const divisor = [10, 20, 30, 40, 50, 60, 70, 80, 90][Math.floor(Math.random()*9)];
+            const quotient = Math.floor(Math.random()*9)+2; // 2~10
+            const dividend = divisor * quotient;
+            question = `口算：${dividend} ÷ ${divisor} = ?`;
+            answer = `${quotient}`;
+            explanation = `${dividend} ÷ ${divisor} = ${quotient}`;
+            hint = '先约分或直接除';
+        } else if (type === 'written-division') {
+            // 笔算除法：三位数除以两位数
+            const divisor = Math.floor(Math.random()*80)+20; // 20~99
+            const quotient = Math.floor(Math.random()*9)+2; // 2~10
+            const dividend = divisor * quotient + Math.floor(Math.random()*divisor); // 有余数
+            question = `笔算：${dividend} ÷ ${divisor} = ?（写出商和余数）`;
+            answer = `${Math.floor(dividend/divisor)}...${dividend%divisor}`;
+            explanation = `${dividend} ÷ ${divisor} = ${Math.floor(dividend/divisor)}......${dividend%divisor}`;
+            hint = '用竖式计算，注意余数';
+        } else if (type === 'quotient-patterns') {
+            // 商的变化规律
+            const base = Math.floor(Math.random()*40)+10; // 10~49
+            const factor = Math.random()<0.5 ? 2 : 3;
+            const type2 = Math.random()<0.5 ? 'dividend' : 'divisor';
+            if (type2 === 'dividend') {
+                question = `如果 ${base*factor} ÷ ${base} = ${factor}，那么 ${base*factor*factor} ÷ ${base} = ?`;
+                answer = `${factor*factor}`;
+                explanation = `被除数扩大${factor}倍，商也扩大${factor}倍：${base*factor*factor} ÷ ${base} = ${factor*factor}`;
+                hint = '关注被除数变化';
+            } else {
+                question = `如果 ${base*factor} ÷ ${base} = ${factor}，那么 ${base*factor} ÷ ${base*factor} = ?`;
+                answer = `1`;
+                explanation = `除数扩大${factor}倍，商缩小${factor}倍：${base*factor} ÷ ${base*factor} = 1`;
+                hint = '关注除数变化';
+            }
         }
+        this.currentExercise = { type, question, answer, explanation, hint };
     }
 
-    // 检查除法计算
-    checkDivisionWork() {
-        // 这里可以添加检查竖式计算的逻辑
-        const feedback = document.getElementById('division-feedback');
-        feedback.innerHTML = '竖式计算检查功能待完善';
-    }
-
-    // 显示除法步骤
-    showDivisionSteps() {
-        const feedback = document.getElementById('division-feedback');
-        feedback.innerHTML = `
-            <div class="step-guide">
-                <h6>计算步骤：</h6>
-                <p>1. 67 ÷ 28，试商2，2×28=56 < 67 ✓</p>
-                <p>2. 67 - 56 = 11，移下2得112</p>
-                <p>3. 112 ÷ 28，试商4，4×28=112 ✓</p>
-                <p>4. 112 - 112 = 0，计算完成</p>
-                <p>答案：672 ÷ 28 = 24</p>
+    // 渲染练习题
+    renderExercise() {
+        this.generateExercise();
+        const ex = this.currentExercise;
+        const container = document.getElementById('divisionPractice');
+        if (!container) return;
+        container.innerHTML = `
+            <div class="practice-content">
+                <h4>✏️ 除法练习</h4>
+                <div class="practice-info">
+                    <span class="exercise-type">题型：${ex.type === 'oral-division' ? '口算' : ex.type === 'written-division' ? '笔算' : '商的规律'}</span>
+                </div>
+                <div class="exercise-card">
+                    <div class="question">
+                        <h5>${ex.question}</h5>
+                        <div class="answer-input">
+                            <input type="text" id="divAnswer" placeholder="请输入答案">
+                            <button onclick="divisionAdvanced.checkAnswer()" class="check-btn">检查答案</button>
+                        </div>
+                    </div>
+                    <div class="hint"><p><strong>提示：</strong>${ex.hint}</p></div>
+                </div>
+                <div class="practice-controls">
+                    <button onclick="divisionAdvanced.renderExercise()" class="next-btn">下一题</button>
+                </div>
+                <div id="divFeedback" class="feedback"></div>
             </div>
         `;
     }
 
-    // 新的除法题目
-    newDivisionProblem() {
-        const problems = [
-            { dividend: 672, divisor: 28 },
-            { dividend: 532, divisor: 38 },
-            { dividend: 456, divisor: 24 },
-            { dividend: 684, divisor: 36 }
-        ];
-        
-        const problem = problems[Math.floor(Math.random() * problems.length)];
-        document.getElementById('problem-dividend').textContent = problem.dividend;
-        document.getElementById('problem-divisor').textContent = problem.divisor;
-        
-        // 清空输入框
-        document.querySelectorAll('.quotient-input, .calc-input').forEach(input => {
-            input.value = '';
-        });
-        
-        document.getElementById('division-feedback').innerHTML = '';
-    }
-
     // 检查答案
     checkAnswer() {
-        const exercises = this.exercises.filter(ex => ex.type === this.currentTopic);
-        const currentEx = exercises[this.currentExercise];
-        
-        let userAnswer;
-        if (this.currentTopic === 'quotient-patterns') {
-            userAnswer = parseInt(document.getElementById('pattern-answer').value);
+        const input = document.getElementById('divAnswer');
+        if (!input) return;
+        const val = input.value.trim();
+        const ex = this.currentExercise;
+        const feedback = document.getElementById('divFeedback');
+        if (val === ex.answer) {
+            feedback.innerHTML = '<span style="color:var(--primary-color);font-weight:bold;">回答正确！</span>';
         } else {
-            userAnswer = parseInt(document.getElementById('division-answer').value);
-        }
-        
-        const feedback = document.getElementById('feedback');
-        if (userAnswer === currentEx.answer) {
-            feedback.innerHTML = '<div class="correct">✓ 正确！</div>';
-            feedback.className = 'feedback correct';
-            this.score += 10;
-        } else {
-            feedback.innerHTML = `<div class="incorrect">✗ 错误。正确答案是：${currentEx.answer}</div>`;
-            feedback.className = 'feedback incorrect';
+            feedback.innerHTML = `<span style="color:#c0392b;">回答错误，正确答案：${ex.answer}。<br>解析：${ex.explanation}</span>`;
         }
     }
 

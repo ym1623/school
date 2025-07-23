@@ -306,51 +306,50 @@ class BarChart {
 
     // 数据收集 - 步骤练习
     generateDataCollectionPractice() {
+        // 随机生成宠物数据
+        const pets = ['小猫', '小狗', '小兔'];
+        const counts = pets.map(() => Math.floor(Math.random()*6)+2); // 2~7只
+        let dataArr = [];
+        pets.forEach((pet, idx) => {
+            for(let i=0;i<counts[idx];i++) dataArr.push(pet);
+        });
+        // 打乱顺序
+        dataArr = dataArr.sort(()=>Math.random()-0.5);
+        // 记录答案
+        this.currentDataAnswer = {
+            '小猫': counts[0],
+            '小狗': counts[1],
+            '小兔': counts[2]
+        };
         return `
             <div class="practice-content">
                 <h4>数据收集和整理练习</h4>
-                
                 <div class="exercise-card">
                     <h5>练习：整理下面的数据</h5>
                     <div class="raw-data-exercise">
                         <p><strong>题目：</strong>下面是四年级一班同学养宠物的调查结果：</p>
                         <div class="data-list">
-                            <span>小猫 小狗 小兔 小猫 小狗 小狗 小兔 小猫 小狗 小兔 小兔 小猫</span>
+                            <span>${dataArr.join(' ')}</span>
                         </div>
                     </div>
-                    
                     <div class="exercise-form">
                         <h6>请完成统计表：</h6>
                         <table class="exercise-table">
                             <thead>
-                                <tr>
-                                    <th>宠物类型</th>
-                                    <th>数量</th>
-                                </tr>
+                                <tr><th>宠物类型</th><th>数量</th></tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>小猫</td>
-                                    <td><input type="number" id="cat-count" min="0" class="count-input"></td>
-                                </tr>
-                                <tr>
-                                    <td>小狗</td>
-                                    <td><input type="number" id="dog-count" min="0" class="count-input"></td>
-                                </tr>
-                                <tr>
-                                    <td>小兔</td>
-                                    <td><input type="number" id="rabbit-count" min="0" class="count-input"></td>
-                                </tr>
+                                <tr><td>小猫</td><td><input type="number" id="cat-count" min="0" class="count-input"></td></tr>
+                                <tr><td>小狗</td><td><input type="number" id="dog-count" min="0" class="count-input"></td></tr>
+                                <tr><td>小兔</td><td><input type="number" id="rabbit-count" min="0" class="count-input"></td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
                 <div class="practice-controls">
                     <button onclick="barChart.checkDataPractice()" class="check-btn">检查答案</button>
-                    <button onclick="barChart.nextDataExercise()" class="next-btn" style="display: none;">下一题</button>
+                    <button onclick="barChart.renderDataCollectionPractice()" class="next-btn">下一题</button>
                 </div>
-
                 <div id="feedback" class="feedback"></div>
             </div>
         `;
@@ -555,55 +554,42 @@ class BarChart {
 
     // 统计图认识 - 步骤练习
     generateChartUnderstandingPractice() {
+        // 随机生成图书类别和数量
+        const books = ['科学', '故事', '漫画', '历史'];
+        const nums = books.map(()=>Math.floor(Math.random()*8)+4); // 4~11本
+        // 最高的类别
+        const maxIdx = nums.indexOf(Math.max(...nums));
+        // 故事类数量
+        const storyIdx = books.indexOf('故事');
+        // 科学-历史差
+        const sciIdx = books.indexOf('科学');
+        const hisIdx = books.indexOf('历史');
+        // 记录答案
+        this.currentChartAnswer = {
+            q1: books[maxIdx],
+            q2: nums[storyIdx],
+            q3: Math.abs(nums[sciIdx]-nums[hisIdx])
+        };
         return `
             <div class="practice-content">
                 <h4>条形统计图读图练习</h4>
-                
                 <div class="exercise-card">
                     <div class="practice-chart">
                         <div class="chart-title">四年级二班图书阅读统计图（单位：本）</div>
                         <div class="chart-area">
                             <div class="y-axis">
-                                <span>12</span>
-                                <span>10</span>
-                                <span>8</span>
-                                <span>6</span>
-                                <span>4</span>
-                                <span>2</span>
-                                <span>0</span>
+                                <span>12</span><span>10</span><span>8</span><span>6</span><span>4</span><span>2</span><span>0</span>
                             </div>
                             <div class="bars">
-                                <div class="bar-item">
-                                    <div class="bar" style="height: 80px;"></div>
-                                    <span class="label">科学</span>
-                                </div>
-                                <div class="bar-item">
-                                    <div class="bar" style="height: 60px;"></div>
-                                    <span class="label">故事</span>
-                                </div>
-                                <div class="bar-item">
-                                    <div class="bar" style="height: 100px;"></div>
-                                    <span class="label">漫画</span>
-                                </div>
-                                <div class="bar-item">
-                                    <div class="bar" style="height: 40px;"></div>
-                                    <span class="label">历史</span>
-                                </div>
+                                ${books.map((b, i)=>`<div class='bar-item'><div class='bar' style='height:${nums[i]*8}px;'></div><span class='label'>${b}</span></div>`).join('')}
                             </div>
                         </div>
                     </div>
-                    
                     <div class="questions">
                         <h6>根据统计图回答问题：</h6>
                         <div class="question-item">
                             <p>1. 哪类图书阅读量最多？</p>
-                            <select id="q1-answer">
-                                <option value="">请选择</option>
-                                <option value="科学">科学</option>
-                                <option value="故事">故事</option>
-                                <option value="漫画">漫画</option>
-                                <option value="历史">历史</option>
-                            </select>
+                            <select id="q1-answer"><option value="">请选择</option>${books.map(b=>`<option value='${b}'>${b}</option>`).join('')}</select>
                         </div>
                         <div class="question-item">
                             <p>2. 故事类图书阅读了多少本？</p>
@@ -615,12 +601,10 @@ class BarChart {
                         </div>
                     </div>
                 </div>
-
                 <div class="practice-controls">
                     <button onclick="barChart.checkChartReading()" class="check-btn">检查答案</button>
-                    <button onclick="barChart.nextChartExercise()" class="next-btn" style="display: none;">下一题</button>
+                    <button onclick="barChart.renderChartUnderstandingPractice()" class="next-btn">下一题</button>
                 </div>
-
                 <div id="feedback" class="feedback"></div>
             </div>
         `;
@@ -816,16 +800,16 @@ class BarChart {
         let correct = 0;
         let total = 3;
         
-        if (q1 === '漫画') correct++;
-        if (q2 === 6) correct++;
-        if (q3 === 4) correct++;
+        if (q1 === this.currentChartAnswer.q1) correct++;
+        if (q2 === this.currentChartAnswer.q2) correct++;
+        if (q3 === this.currentChartAnswer.q3) correct++;
         
         if (correct === total) {
             feedback.innerHTML = '<div class="correct">✓ 全部答案正确！图表阅读能力很强！</div>';
             feedback.className = 'feedback correct';
             this.score += 15;
         } else {
-            feedback.innerHTML = `<div class="incorrect">✗ 答对了${correct}/${total}题。正确答案：1.漫画 2.6本 3.4本</div>`;
+            feedback.innerHTML = `<div class="incorrect">✗ 答对了${correct}/${total}题。正确答案：1.${this.currentChartAnswer.q1} 2.${this.currentChartAnswer.q2} 3.${this.currentChartAnswer.q3}</div>`;
             feedback.className = 'feedback incorrect';
         }
     }

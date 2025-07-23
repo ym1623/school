@@ -416,20 +416,19 @@ class Ruler {
         this.generatePracticeQuestion();
     }
 
-    // 生成练习题目
+    // 动态生成练习题目
     generatePracticeQuestion() {
-        const questions = [
-            { question: '请测量5厘米的长度', answer: 5, unit: 'cm' },
-            { question: '请测量2.5厘米的长度', answer: 2.5, unit: 'cm' },
-            { question: '请测量8厘米的长度', answer: 8, unit: 'cm' },
-            { question: '请测量50毫米的长度', answer: 50, unit: 'mm' },
-            { question: '请测量75毫米的长度', answer: 75, unit: 'mm' }
-        ];
-        
-        const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
-        this.currentPracticeQuestion = randomQuestion;
-        
-        this.showMessage(`练习题目：${randomQuestion.question}`);
+        // 随机生成长度和单位
+        const units = ['cm', 'mm'];
+        const unit = units[Math.floor(Math.random()*units.length)];
+        let value = 0;
+        if(unit==='cm') {
+            value = (Math.floor(Math.random()*90)+10)/10; // 1.0~9.9cm
+        } else {
+            value = Math.floor(Math.random()*91)+10; // 10~100mm
+        }
+        this.currentPracticeQuestion = { question: `请测量${value}${unit}的长度`, answer: value, unit };
+        this.showMessage(`练习题目：请测量${value}${unit}的长度`);
     }
 
     // 检查练习答案

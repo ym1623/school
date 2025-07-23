@@ -24,55 +24,94 @@ class QuadrilateralsUnit {
         this.generateExercises();
     }
 
-    // 生成练习题
-    generateExercises() {
-        this.exercises = [
-            // 平行四边形练习题
-            { 
-                type: 'parallelogram',
-                question: '平行四边形的对边有什么特点？',
-                answer: '对边平行且相等',
-                explanation: '平行四边形的对边不仅平行，而且长度相等',
-                hint: '想想平行四边形的定义'
-            },
-            { 
-                type: 'parallelogram',
-                question: '平行四边形的对角有什么特点？',
-                answer: '对角相等',
-                explanation: '平行四边形的对角相等，这是平行四边形的重要性质',
-                hint: '观察平行四边形的角'
-            },
-            // 梯形练习题
-            { 
-                type: 'trapezoid',
-                question: '梯形有几组平行边？',
-                answer: '一组',
-                explanation: '梯形只有一组对边平行，这是梯形的定义',
-                hint: '梯形的定义是什么？'
-            },
-            { 
-                type: 'trapezoid',
-                question: '等腰梯形的两个底角有什么关系？',
-                answer: '相等',
-                explanation: '等腰梯形的两个底角相等，这是等腰梯形的重要性质',
-                hint: '等腰梯形的特点'
-            },
-            // 性质练习题
-            { 
-                type: 'properties',
-                question: '平行四边形的面积公式是什么？',
-                answer: '底×高',
-                explanation: '平行四边形的面积等于底乘以高',
-                hint: '想想平行四边形的面积计算方法'
-            },
-            { 
-                type: 'properties',
-                question: '梯形的面积公式是什么？',
-                answer: '(上底+下底)×高÷2',
-                explanation: '梯形的面积等于上底加下底的和乘以高再除以2',
-                hint: '梯形的面积计算需要用到上下底'
+    // 动态生成练习题
+    generateExercise() {
+        // 随机选择题型
+        const types = ['parallelogram', 'trapezoid', 'properties'];
+        const type = types[Math.floor(Math.random() * types.length)];
+        let question = '', answer = '', explanation = '', hint = '';
+        if (type === 'parallelogram') {
+            // 平行四边形题型
+            const qType = Math.random() < 0.5 ? 'property' : 'area';
+            if (qType === 'property') {
+                const props = [
+                    {q: '平行四边形的对边有什么特点？', a: '对边平行且相等', e: '平行四边形的对边不仅平行，而且长度相等', h: '回忆定义'},
+                    {q: '平行四边形的对角有什么特点？', a: '对角相等', e: '平行四边形的对角相等', h: '观察图形'},
+                    {q: '平行四边形的对角线有什么特点？', a: '互相平分', e: '平行四边形的两条对角线互相平分', h: '画一画对角线'}
+                ];
+                const p = props[Math.floor(Math.random()*props.length)];
+                question = p.q; answer = p.a; explanation = p.e; hint = p.h;
+            } else {
+                // 面积题
+                const base = Math.floor(Math.random()*20)+5;
+                const height = Math.floor(Math.random()*10)+3;
+                question = `一个平行四边形的底是${base}厘米，高是${height}厘米，面积是多少？`;
+                answer = `${base*height}`;
+                explanation = `面积=底×高=${base}×${height}=${base*height}（平方厘米）`;
+                hint = '用面积公式计算';
             }
-        ];
+        } else if (type === 'trapezoid') {
+            // 梯形题型
+            const qType = Math.random() < 0.5 ? 'property' : 'area';
+            if (qType === 'property') {
+                const props = [
+                    {q: '梯形有几组平行边？', a: '一组', e: '梯形只有一组对边平行', h: '回忆定义'},
+                    {q: '等腰梯形的两个底角有什么关系？', a: '相等', e: '等腰梯形的两个底角相等', h: '等腰梯形的特点'},
+                    {q: '梯形的高指的是什么？', a: '两底间的距离', e: '梯形的高是两条底之间的距离', h: '画一画'}
+                ];
+                const p = props[Math.floor(Math.random()*props.length)];
+                question = p.q; answer = p.a; explanation = p.e; hint = p.h;
+            } else {
+                // 面积题
+                const base1 = Math.floor(Math.random()*20)+5;
+                const base2 = Math.floor(Math.random()*20)+5;
+                const height = Math.floor(Math.random()*10)+3;
+                question = `一个梯形的上底${base1}厘米，下底${base2}厘米，高${height}厘米，面积是多少？`;
+                answer = `${((base1+base2)*height/2).toFixed(1)}`;
+                explanation = `面积=（上底+下底）×高÷2=(${base1}+${base2})×${height}÷2=${((base1+base2)*height/2).toFixed(1)}（平方厘米）`;
+                hint = '用面积公式计算';
+            }
+        } else if (type === 'properties') {
+            // 性质题型
+            const props = [
+                {q: '平行四边形的面积公式是什么？', a: '底×高', e: '平行四边形的面积等于底乘以高', h: '面积=底×高'},
+                {q: '梯形的面积公式是什么？', a: '（上底+下底）×高÷2', e: '梯形的面积等于（上底+下底）×高÷2', h: '面积=（上底+下底）×高÷2'},
+                {q: '平行四边形和梯形的共同点是什么？', a: '都有平行边', e: '两者都至少有一组平行边', h: '观察图形'}
+            ];
+            const p = props[Math.floor(Math.random()*props.length)];
+            question = p.q; answer = p.a; explanation = p.e; hint = p.h;
+        }
+        this.currentExercise = { type, question, answer, explanation, hint };
+    }
+
+    // 渲染练习题
+    renderExercise() {
+        this.generateExercise();
+        const ex = this.currentExercise;
+        const container = document.getElementById('quadrilateralsPractice');
+        if (!container) return;
+        container.innerHTML = `
+            <div class="practice-content">
+                <h4>✏️ 图形练习</h4>
+                <div class="practice-info">
+                    <span class="exercise-type">题型：${ex.type === 'parallelogram' ? '平行四边形' : ex.type === 'trapezoid' ? '梯形' : '性质'}</span>
+                </div>
+                <div class="exercise-card">
+                    <div class="question">
+                        <h5>${ex.question}</h5>
+                        <div class="answer-input">
+                            <input type="text" id="quadAnswer" placeholder="请输入答案">
+                            <button onclick="quadrilateralsUnit.checkAnswer()" class="check-btn">检查答案</button>
+                        </div>
+                    </div>
+                    <div class="hint"><p><strong>提示：</strong>${ex.hint}</p></div>
+                </div>
+                <div class="practice-controls">
+                    <button onclick="quadrilateralsUnit.renderExercise()" class="next-btn">下一题</button>
+                </div>
+                <div id="quadFeedback" class="feedback"></div>
+            </div>
+        `;
     }
 
     // 生成基础解释内容

@@ -334,24 +334,82 @@ class MultiplicationAdvancedUnit {
         `;
     }
 
+    // 生成动态练习题
+    generateExercise() {
+        // 随机选择题型
+        const types = ['mental_calculation', 'written_calculation', 'application'];
+        const type = types[Math.floor(Math.random() * types.length)];
+        let question = '', answer = 0, explanation = '', hint = '';
+        if (type === 'mental_calculation') {
+            // 口算：三位数×两位数
+            const a = Math.floor(Math.random() * 900) + 100; // 100~999
+            const b = Math.floor(Math.random() * 90) + 10;   // 10~99
+            question = `计算：${a} × ${b} = ?`;
+            answer = a * b;
+            explanation = `${a} × ${b} = ${answer}`;
+            hint = '可拆分因数或用估算法';
+        } else if (type === 'written_calculation') {
+            // 笔算：三位数×两位数
+            const a = Math.floor(Math.random() * 900) + 100;
+            const b = Math.floor(Math.random() * 90) + 10;
+            question = `笔算：${a} × ${b} = ?`;
+            answer = a * b;
+            explanation = `${a} × ${b} = ${answer}`;
+            hint = '按位相乘，注意进位';
+        } else if (type === 'application') {
+            // 应用题：生产、买卖等场景
+            const days = Math.floor(Math.random() * 40) + 10; // 10~49天
+            const perDay = Math.floor(Math.random() * 400) + 100; // 100~499
+            question = `一个工厂每天生产${perDay}个零件，连续生产${days}天，一共生产多少个零件？`;
+            answer = perDay * days;
+            explanation = `${perDay} × ${days} = ${answer}`;
+            hint = '用每天生产的数量乘以天数';
+        }
+        this.currentExercise = { type, question, answer, explanation, hint };
+    }
+
+    // 渲染练习题
+    renderExercise() {
+        this.generateExercise();
+        const ex = this.currentExercise;
+        const container = document.getElementById('multiplicationPractice');
+        if (!container) return;
+        container.innerHTML = `
+            <div class="practice-content">
+                <h4>✏️ 乘法练习</h4>
+                <div class="practice-info">
+                    <span class="exercise-type">题型：${ex.type === 'mental_calculation' ? '口算' : ex.type === 'written_calculation' ? '笔算' : '应用题'}</span>
+                </div>
+                <div class="exercise-card">
+                    <div class="question">
+                        <h5>${ex.question}</h5>
+                        <div class="answer-input">
+                            <input type="number" id="mulAnswer" placeholder="请输入答案">
+                            <button onclick="multiplicationAdvancedUnit.checkAnswer()" class="check-btn">检查答案</button>
+                        </div>
+                    </div>
+                    <div class="hint"><p><strong>提示：</strong>${ex.hint}</p></div>
+                </div>
+                <div class="practice-controls">
+                    <button onclick="multiplicationAdvancedUnit.renderExercise()" class="next-btn">下一题</button>
+                </div>
+                <div id="mulFeedback" class="feedback"></div>
+            </div>
+        `;
+    }
+
     // 检查答案
     checkAnswer() {
-        const userAnswer = parseInt(document.getElementById('answer').value);
-        const exercises = this.exercises.filter(ex => ex.type === this.currentTopic);
-        const currentEx = exercises[this.currentExercise];
-        
-        const feedback = document.getElementById('feedback');
-        if (userAnswer === currentEx.answer) {
-            feedback.innerHTML = '<div class="correct">✅ 答案正确！</div><div class="explanation">' + currentEx.explanation + '</div>';
-            feedback.className = 'feedback correct';
-            this.score += 10;
-            document.querySelector('.next-btn').style.display = 'inline-block';
+        const input = document.getElementById('mulAnswer');
+        if (!input) return;
+        const val = Number(input.value);
+        const ex = this.currentExercise;
+        const feedback = document.getElementById('mulFeedback');
+        if (val === ex.answer) {
+            feedback.innerHTML = '<span style="color:var(--primary-color);font-weight:bold;">回答正确！</span>';
         } else {
-            feedback.innerHTML = '<div class="incorrect">❌ 答案不正确</div><div class="explanation">正确答案：' + currentEx.answer + '<br>' + currentEx.explanation + '</div>';
-            feedback.className = 'feedback incorrect';
+            feedback.innerHTML = `<span style="color:#c0392b;">回答错误，正确答案：${ex.answer}。<br>解析：${ex.explanation}</span>`;
         }
-        
-        document.querySelector('.score').textContent = `得分：${this.score}`;
     }
 
     // 下一题

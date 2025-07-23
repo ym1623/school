@@ -3975,3 +3975,85 @@ body {
         break-inside: avoid;
     }
 }
+
+.future-features {
+    background: rgba(255,255,255,0.95);
+    border-radius: var(--radius-2xl);
+    padding: var(--spacing-xl);
+    margin-top: var(--spacing-2xl);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    animation: fadeIn 0.8s ease-out 0.6s both;
+    text-align: center;
+}
+.future-features h3 {
+    color: var(--primary-dark);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+    letter-spacing: 0.08em;
+}
+.future-grid {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+.future-btn {
+    background: linear-gradient(135deg, var(--gray-50), var(--primary-light));
+    border: 2px solid var(--primary-light);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    min-width: 120px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--primary-dark);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+.future-btn:hover {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: #fff;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+.future-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+    display: block;
+}
+.future-name {
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+.future-desc {
+    color: var(--gray-500);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-md);
+}
+@media (max-width: 768px) {
+    .future-grid {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    .future-btn {
+        min-width: 100px;
+        min-height: 80px;
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: var(--font-size-base);
+    }
+    .future-icon {
+        font-size: 2rem;
+    }
+}

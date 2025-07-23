@@ -772,28 +772,72 @@ class MathThinking {
         `;
     }
 
-    // 生成练习题
-    generateExercises() {
-        this.exercises = [
-            {
-                type: 'logical-reasoning',
-                problem: '甲、乙、丙三人中，甲比乙高，乙比丙高，谁最高？',
-                answer: '甲',
-                hint: '甲 > 乙 > 丙'
-            },
-            {
-                type: 'optimization',
-                problem: '用20米篱笆围长方形菜园，长和宽各是多少米时面积最大？',
-                answer: '长5米，宽5米',
-                hint: '正方形面积最大'
-            },
-            {
-                type: 'strategy',
-                problem: '3个人排队，有几种不同的排法？',
-                answer: '6',
-                hint: '3×2×1 = 6'
-            }
-        ];
+    // 动态生成练习题
+    generateExercise() {
+        // 随机选择题型
+        const types = ['logical-reasoning', 'optimization', 'strategy'];
+        const type = types[Math.floor(Math.random() * types.length)];
+        let problem = '', answer = '', hint = '', explanation = '';
+        if (type === 'logical-reasoning') {
+            // 逻辑推理题
+            const names = ['甲','乙','丙','丁'];
+            const a = names[Math.floor(Math.random()*names.length)];
+            let b = names[Math.floor(Math.random()*names.length)];
+            while(b===a) b = names[Math.floor(Math.random()*names.length)];
+            let c = names[Math.floor(Math.random()*names.length)];
+            while(c===a||c===b) c = names[Math.floor(Math.random()*names.length)];
+            problem = `${a}比${b}高，${b}比${c}高，谁最高？`;
+            answer = a;
+            hint = `${a} > ${b} > ${c}`;
+            explanation = `由题意，${a}最高。`;
+        } else if (type === 'optimization') {
+            // 优化问题：围长最大面积
+            const total = (Math.floor(Math.random()*10)+10)*2; // 20~38米
+            problem = `用${total}米篱笆围长方形菜园，长和宽各是多少米时面积最大？`;
+            answer = `长${total/4}米，宽${total/4}米`;
+            hint = '正方形面积最大';
+            explanation = `当长=宽=${total/4}米时，面积最大。`;
+        } else if (type === 'strategy') {
+            // 排列组合题
+            const n = Math.floor(Math.random()*3)+3; // 3~5人
+            problem = `${n}个人排队，有几种不同的排法？`;
+            let res = 1;
+            for(let i=1;i<=n;i++) res*=i;
+            answer = `${res}`;
+            hint = `${n}! = ${Array.from({length:n},(_,i)=>n-i).join('×')}`;
+            explanation = `一共有${res}种排法。`;
+        }
+        this.currentExercise = { type, problem, answer, hint, explanation };
+    }
+
+    // 渲染练习题
+    renderExercise() {
+        this.generateExercise();
+        const ex = this.currentExercise;
+        const container = document.getElementById('mathThinkingPractice');
+        if (!container) return;
+        container.innerHTML = `
+            <div class="practice-content">
+                <h4>✏️ 数学思维练习</h4>
+                <div class="practice-info">
+                    <span class="exercise-type">题型：${ex.type === 'logical-reasoning' ? '逻辑推理' : ex.type === 'optimization' ? '最优策略' : '排列组合'}</span>
+                </div>
+                <div class="exercise-card">
+                    <div class="question">
+                        <h5>${ex.problem}</h5>
+                        <div class="answer-input">
+                            <input type="text" id="mtAnswer" placeholder="请输入答案">
+                            <button onclick="mathThinking.checkAnswer()" class="check-btn">检查答案</button>
+                        </div>
+                    </div>
+                    <div class="hint"><p><strong>提示：</strong>${ex.hint}</p></div>
+                </div>
+                <div class="practice-controls">
+                    <button onclick="mathThinking.renderExercise()" class="next-btn">下一题</button>
+                </div>
+                <div id="mtFeedback" class="feedback"></div>
+            </div>
+        `;
     }
 
     // 检查排列
@@ -895,20 +939,15 @@ class MathThinking {
 
     // 检查答案
     checkAnswer() {
-        const exercises = this.exercises.filter(ex => ex.type === this.currentTopic);
-        const currentEx = exercises[this.currentExercise];
-        
-        const userAnswer = document.getElementById('thinking-answer').value;
-        const feedback = document.getElementById('feedback');
-        
-        if (userAnswer.toLowerCase().includes(currentEx.answer.toLowerCase()) || 
-            userAnswer === currentEx.answer) {
-            feedback.innerHTML = '<div class="correct">✓ 正确！思维很敏捷！</div>';
-            feedback.className = 'feedback correct';
-            this.score += 10;
+        const input = document.getElementById('mtAnswer');
+        if (!input) return;
+        const val = input.value.trim();
+        const ex = this.currentExercise;
+        const feedback = document.getElementById('mtFeedback');
+        if (val === ex.answer) {
+            feedback.innerHTML = '<span style="color:var(--primary-color);font-weight:bold;">回答正确！</span>';
         } else {
-            feedback.innerHTML = `<div class="incorrect">✗ 答案不完全正确。参考答案：${currentEx.answer}</div>`;
-            feedback.className = 'feedback incorrect';
+            feedback.innerHTML = `<span style="color:#c0392b;">回答错误，正确答案：${ex.answer}。<br>解析：${ex.explanation}</span>`;
         }
     }
 

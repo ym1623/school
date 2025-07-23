@@ -422,16 +422,44 @@ class MathGame {
         this.displayPattern();
     }
 
-    // 生成规律
+    // 动态生成找规律题目
     generatePattern() {
-        const patterns = [
-            { sequence: [2, 4, 6, 8, 10], rule: '每次加2', answer: 12 },
-            { sequence: [1, 3, 6, 10, 15], rule: '每次加的数递增1', answer: 21 },
-            { sequence: [1, 2, 4, 8, 16], rule: '每次乘2', answer: 32 },
-            { sequence: [1, 4, 9, 16, 25], rule: '平方数', answer: 36 }
-        ];
-        
-        return patterns[Math.floor(Math.random() * patterns.length)];
+        // 随机选择规律类型
+        const types = ['等差', '等比', '递增加数', '平方数'];
+        const type = types[Math.floor(Math.random()*types.length)];
+        let sequence = [], rule = '', answer = 0;
+        if(type==='等差') {
+            // 等差数列
+            const start = Math.floor(Math.random()*10)+1;
+            const diff = Math.floor(Math.random()*5)+1;
+            for(let i=0;i<5;i++) sequence.push(start+i*diff);
+            rule = `每次加${diff}`;
+            answer = sequence[4]+diff;
+        } else if(type==='等比') {
+            // 等比数列
+            const start = Math.floor(Math.random()*3)+1;
+            const ratio = Math.floor(Math.random()*3)+2;
+            for(let i=0;i<5;i++) sequence.push(start*Math.pow(ratio,i));
+            rule = `每次乘${ratio}`;
+            answer = sequence[4]*ratio;
+        } else if(type==='递增加数') {
+            // 每次加的数递增1
+            let cur = Math.floor(Math.random()*3)+1;
+            sequence.push(cur);
+            for(let i=1;i<5;i++) {
+                cur += i;
+                sequence.push(cur);
+            }
+            rule = '每次加的数递增1';
+            answer = sequence[4]+5;
+        } else if(type==='平方数') {
+            // 平方数列
+            const start = Math.floor(Math.random()*3)+1;
+            for(let i=0;i<5;i++) sequence.push((start+i)*(start+i));
+            rule = '平方数';
+            answer = (start+5)*(start+5);
+        }
+        return { sequence, rule, answer };
     }
 
     // 显示规律

@@ -479,41 +479,40 @@ class FractionCalculator {
         this.generatePracticeQuestion();
     }
 
-    // 生成练习题目
+    // 动态生成练习题目
     generatePracticeQuestion() {
         const operations = ['+', '-', '×', '÷'];
         const operation = operations[Math.floor(Math.random() * operations.length)];
-        
         let f1, f2;
+        // 分数分子分母范围更广，避免重复
+        const getFrac = (minD=2,maxD=12,minN=1,maxN=11) => {
+            const denominator = Math.floor(Math.random()*(maxD-minD+1))+minD;
+            const numerator = Math.floor(Math.random()*(Math.min(denominator-1,maxN)-minN+1))+minN;
+            return { numerator, denominator };
+        };
         switch (operation) {
             case '+':
             case '-':
-                // 生成分母不同的分数
-                f1 = { numerator: Math.floor(Math.random() * 5) + 1, denominator: Math.floor(Math.random() * 5) + 2 };
-                f2 = { numerator: Math.floor(Math.random() * 5) + 1, denominator: Math.floor(Math.random() * 5) + 2 };
+                f1 = getFrac();
+                f2 = getFrac();
                 break;
             case '×':
             case '÷':
-                // 生成简单的分数
-                f1 = { numerator: Math.floor(Math.random() * 4) + 1, denominator: Math.floor(Math.random() * 4) + 1 };
-                f2 = { numerator: Math.floor(Math.random() * 4) + 1, denominator: Math.floor(Math.random() * 4) + 1 };
+                f1 = getFrac(2,9,1,8);
+                f2 = getFrac(2,9,1,8);
                 break;
         }
-        
         this.fraction1 = f1;
         this.fraction2 = f2;
         this.operation = operation;
         this.result = null;
-        
         document.getElementById('num1').value = f1.numerator;
         document.getElementById('den1').value = f1.denominator;
         document.getElementById('num2').value = f2.numerator;
         document.getElementById('den2').value = f2.denominator;
         document.getElementById('operation').value = operation;
-        
         this.updateDisplay();
         this.drawVisualization();
-        
         this.showMessage(`练习题目：${f1.numerator}/${f1.denominator} ${operation} ${f2.numerator}/${f2.denominator} = ?`);
     }
 }

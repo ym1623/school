@@ -356,6 +356,20 @@ class Clock {
         ];
     }
 
+    // 动态生成练习题目
+    generatePracticeQuestion() {
+        // 随机生成小时和分钟
+        const hour = Math.floor(Math.random()*12)+1; // 1~12
+        const minute = Math.floor(Math.random()*12)*5; // 0,5,10,...,55
+        const timeStr = `${hour}:${minute.toString().padStart(2,'0')}`;
+        let desc = '';
+        if(hour<12) desc = `上午${hour}点${minute===0?'':minute+'分'}`;
+        else if(hour===12) desc = `中午12点${minute===0?'':minute+'分'}`;
+        else desc = `下午${hour-12}点${minute===0?'':minute+'分'}`;
+        this.currentPracticeQuestion = { time: timeStr, description: desc };
+        this.showMessage(`请在时钟上设置：${desc}（${timeStr}）`);
+    }
+
     // 开始练习
     startPractice() {
         this.currentQuestion = 0;
